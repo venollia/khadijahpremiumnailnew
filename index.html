@@ -1,1 +1,518 @@
-teessd
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KHADIJAH PREMIUM NAIL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #EE4D2D; --bg: #f5f5f5; --white: #fff; --border: #f2f2f2; --text-muted: #888; }
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: #333; }
+        .container { max-width: 500px; margin: 0 auto; background: var(--white); min-height: 100vh; position: relative; }
+        
+        .product-swiper { width: 100%; aspect-ratio: 1/1; background: #fafafa; margin-top: 0; }
+        
+        /* Flash Sale bar */
+        .flash-sale-bar { color: white; display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; }
+        .fs-left { display: flex; flex-direction: column; }
+        .fs-label { font-size: 16px; font-weight: 900; text-transform: uppercase; font-style: italic; }
+        .fs-subtext { font-size: 9px; font-weight: 700; opacity: 0.9; }
+        .fs-right { display: flex; flex-direction: column; align-items: flex-end; }
+        .fs-timer-label { font-size: 10px; font-weight: 700; margin-bottom: 4px; }
+        .timer-box { background: rgba(0,0,0,0.3); padding: 3px 8px; border-radius: 3px; font-size: 13px; font-weight: 900; font-family: monospace; }
+        
+        .p-info { padding: 15px; border-bottom: 1px solid var(--border); background: #fff; }
+        .p-price-now { font-size: 1.8rem; color: var(--primary); font-weight: 800; }
+        .p-price-was { font-size: 0.85rem; color: #999; text-decoration: line-through; }
+        .p-discount-tag { background: #fee2e2; color: #ef4444; font-size: 11px; font-weight: 800; padding: 2px 6px; border-radius: 4px; }
+        .p-title { font-size: 1rem; font-weight: 600; line-height: 1.4; margin-bottom: 10px; }
+        
+        /* Store Section Bar */
+        .shop-section { display: flex; align-items: center; gap: 12px; padding: 15px; border-bottom: 8px solid #f1f1f1; background: #fff; }
+        .shop-logo { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 1px solid #eee; }
+        .shop-info { flex: 1; }
+        .shop-name { font-size: 14px; font-weight: 700; color: #333; }
+        .shop-meta { font-size: 11px; color: #888; margin-top: 2px; }
+
+        .s-section { padding: 15px; border-bottom: 8px solid #f1f1f1; background: #fff; }
+        .s-section-title { font-weight: 800; font-size: 13px; color: #333; text-transform: uppercase; }
+        
+        /* Horizontal Variants Scroll */
+        .variant-scroll-container { display: flex; gap: 10px; overflow-x: auto; padding: 5px 0 15px; scrollbar-width: none; -ms-overflow-style: none; }
+        .variant-scroll-container::-webkit-scrollbar { display: none; }
+        .variant-card { flex: 0 0 100px; border: 1px solid #eee; border-radius: 4px; padding: 4px; position: relative; cursor: pointer; transition: 0.2s; background: #fff; }
+        .v-card-img { width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 2px; margin-bottom: 6px; }
+        .v-card-img img { width: 100%; height: 100%; object-fit: cover; }
+        .v-card-name { font-size: 11px; text-align: center; color: #555; font-weight: 500; height: 32px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .v-check { position: absolute; top: 0; right: 0; background: var(--primary); color: #fff; width: 16px; height: 16px; border-radius: 0 3px 0 8px; font-size: 9px; display: none; align-items: center; justify-content: center; z-index: 2; }
+        .variant-card.active { border-color: var(--primary); }
+        .variant-card.active .v-card-name { color: var(--primary); font-weight: 700; }
+        .variant-card.active .v-check { display: flex; }
+
+        .shipping-box { display: flex !important; align-items: center; gap: 12px; padding: 15px; border-bottom: 8px solid #f1f1f1; background: #fff; cursor: pointer; }
+        .shipping-icon { color: #26aa99; font-size: 18px; }
+        .shipping-text { flex: 1; }
+        .shipping-title { font-size: 12px; font-weight: 600; color: #26aa99; display: flex; align-items: center; gap: 6px; }
+        .shipping-desc { font-size: 11px; color: #888; margin-top: 2px; }
+        
+        /* Features Section */
+        .s-section-features { background: #fff; border-bottom: 8px solid #f1f1f1; }
+        .features-vertical-list { display: flex; flex-direction: column; }
+        .feature-vertical-item { padding: 0 0 30px 0; }
+        .feature-img-large { width: 100%; height: auto; display: block; }
+        .feature-content-large { padding: 15px 20px; }
+        .feature-title-large { font-size: 15px; font-weight: 800; color: #333; margin-bottom: 8px; }
+        .feature-desc-large { font-size: 12px; color: #666; line-height: 1.6; }
+
+        .dropdown-trigger { padding: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 13px; cursor: pointer; color: #444; border-bottom: 1px solid #f8f8f8;}
+        .dropdown-content { padding: 0 15px 15px; font-size: 13px; color: #666; white-space: pre-wrap; line-height: 1.6; display: none; }
+        .dropdown-content.active { display: block; }
+        
+        .s-testimonial-item { padding: 15px 0; border-bottom: 1px solid #f8f8f8; }
+        .st-header { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+        .st-avatar { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #eee; }
+        .st-name { font-size: 12px; font-weight: 600; color: #333; }
+        .st-stars { color: #f1c40f; font-size: 9px; margin: 2px 0; }
+        .st-meta { font-size: 10px; color: #999; }
+        .st-text { font-size: 12px; color: #444; line-height: 1.6; margin-bottom: 10px; }
+        .st-media img { width: 80px; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid #eee; }
+        
+        .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; display: none; justify-content: center; align-items: center; padding: 20px; }
+        .lightbox-container { background: transparent; padding: 0; border-radius: 12px; width: 70%; max-width: 350px; position: relative; }
+        .lightbox img { width: 100%; height: auto; border-radius: 12px; display: block; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .lightbox-close { position: absolute; top: -40px; right: 0; color: #fff; font-size: 32px; cursor: pointer; }
+
+        /* Variant Summary styles - FIXED SMALLER SIZING */
+        .summary-card { display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #f0f0f0; border-radius: 8px; margin-bottom: 15px; background: #fafafa; }
+        .summary-img { width: 48px; height: 48px; border-radius: 4px; object-fit: cover; border: 1px solid #eee; flex-shrink: 0; }
+        .summary-info { flex: 1; min-width: 0; }
+        .summary-title { font-size: 12px; font-weight: 700; color: #333; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .summary-variant-name { font-size: 10px; font-weight: 600; color: #888; background: #eee; padding: 2px 8px; border-radius: 3px; display: inline-block; margin-top: 3px; }
+        .summary-check { margin-left: 8px; color: #26aa99; font-size: 16px; }
+
+        /* Related Products Section */
+        .related-swiper { padding: 5px 0 20px; }
+        .related-card { border: 1px solid #eee; border-radius: 12px; overflow: hidden; background: #fff; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s; }
+        .related-card:active { transform: scale(0.98); }
+        .related-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
+        .related-info { padding: 12px; flex: 1; display: flex; flex-direction: column; gap: 4px; }
+        .related-name { font-size: 11px; font-weight: 700; color: #333; height: 32px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; }
+        .related-price-row { display: flex; flex-direction: column; }
+        .related-price-now { font-size: 13px; font-weight: 800; color: var(--primary); }
+        .related-price-was { font-size: 9px; color: #999; text-decoration: line-through; }
+        .related-btn { margin-top: 8px; font-size: 10px; font-weight: 800; color: #fff; text-align: center; padding: 8px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="swiper product-swiper" id="main-slider"><div class="swiper-wrapper"><div class="swiper-slide"><img src="https://bandungmall.my.id/wp-content/uploads/2026/04/WhatsApp-Image-2026-04-20-at-11.04.41-AM.jpeg" id="main-product-img" style="width:100%; height:100%; object-fit:contain;"></div><div class="swiper-slide"><img src="https://bandungmall.my.id/wp-content/uploads/2026/04/WhatsApp-Image-2026-04-20-at-11.04.39-AM.jpeg"  style="width:100%; height:100%; object-fit:contain;"></div></div><div class="swiper-pagination"></div></div>
+        
+        
+        <div class="flash-sale-bar" style="background: #EE4D2D;">
+            <div class="fs-left">
+                <div class="fs-label">FLASH SALE! STOK TERBATAS</div>
+                <div class="fs-subtext">PROMO SPESIAL HARI INI</div>
+            </div>
+            <div class="fs-right">
+                <div class="fs-timer-label"><i class="fas fa-clock"></i> BERAKHIR DALAM</div>
+                <div class="timer-box" id="timer">00 : 00 : 00</div>
+            </div>
+        </div>
+
+        <div class="p-info">
+            <div class="p-price-row" style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                <span class="p-price-now" id="display-price">Rp 135.000</span>
+                <span class="p-price-was">Rp 155.000</span>
+                <span class="p-discount-tag">-13%</span>
+            </div>
+            <h1 class="p-title">KHADIJAH PREMIUM NAIL</h1>
+            
+            <div style="font-size: 11px; color: #757575; display:flex; align-items:center; gap:8px;">
+                <span style="color:#f1c40f">★</span> 4.9 
+                <span style="color:#ddd">|</span> 1.2RB Penilaian 
+                <span style="color:#ddd">|</span> 2.5RB+ Terjual
+            </div>
+        </div>
+
+        <!-- Store Info Section -->
+        <div class="shop-section">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQi_1p848QQSXq7GWm0b7L5r8K_wNbAhTOGTA&s" class="shop-logo">
+            <div class="shop-info">
+                <div class="shop-name">Venolliastore</div>
+                <div class="shop-meta">Aktif 1 jam lalu | Kota Jakarta</div>
+            </div>
+        </div>
+
+        
+        <div class="s-section">
+            <div class="s-section-header">
+                <div class="s-section-title">Pilihan: <span id="selected-variant-name" style="color:#EE4D2D; font-weight:500;"></span></div>
+            </div>
+            <div class="variant-scroll-container">
+                
+                    <div class="variant-card active" onclick="selectVariant(this, '135000', 'MAROON', 'https://down-id.img.susercontent.com/file/id-11134207-82252-mkcerhepx1qg9e@resize_w450_nl.webp')">
+                        <div class="v-card-img">
+                            <img src="https://down-id.img.susercontent.com/file/id-11134207-82252-mkcerhepx1qg9e@resize_w450_nl.webp">
+                        </div>
+                        <div class="v-card-name">MAROON</div>
+                        <div class="v-check"><i class="fas fa-check"></i></div>
+                    </div>
+                
+                    <div class="variant-card " onclick="selectVariant(this, '175000', 'Paket Ombre Maroon+Black', 'https://down-id.img.susercontent.com/file/id-11134207-7rbk1-maw5gumfc4ff0a@resize_w450_nl.webp')">
+                        <div class="v-card-img">
+                            <img src="https://down-id.img.susercontent.com/file/id-11134207-7rbk1-maw5gumfc4ff0a@resize_w450_nl.webp">
+                        </div>
+                        <div class="v-card-name">Paket Ombre Maroon+Black</div>
+                        <div class="v-check"><i class="fas fa-check"></i></div>
+                    </div>
+                
+                    <div class="variant-card " onclick="selectVariant(this, '175000', 'Paket Ombre Maroon+Brown', 'https://down-id.img.susercontent.com/file/id-11134207-7rbkb-mahoq6y80hgr82@resize_w450_nl.webp')">
+                        <div class="v-card-img">
+                            <img src="https://down-id.img.susercontent.com/file/id-11134207-7rbkb-mahoq6y80hgr82@resize_w450_nl.webp">
+                        </div>
+                        <div class="v-card-name">Paket Ombre Maroon+Brown</div>
+                        <div class="v-check"><i class="fas fa-check"></i></div>
+                    </div>
+                
+                    <div class="variant-card " onclick="selectVariant(this, '135000', 'CHERRY RED', 'https://down-id.img.susercontent.com/file/id-11134207-7rbk6-m9gt3snjjgbi9c@resize_w450_nl.webp')">
+                        <div class="v-card-img">
+                            <img src="https://down-id.img.susercontent.com/file/id-11134207-7rbk6-m9gt3snjjgbi9c@resize_w450_nl.webp">
+                        </div>
+                        <div class="v-card-name">CHERRY RED</div>
+                        <div class="v-check"><i class="fas fa-check"></i></div>
+                    </div>
+                
+                    <div class="variant-card " onclick="selectVariant(this, '135000', 'BLACK', 'https://down-id.img.susercontent.com/file/id-11134207-7rbk4-m9gt3snjgn6m80@resize_w450_nl.webp')">
+                        <div class="v-card-img">
+                            <img src="https://down-id.img.susercontent.com/file/id-11134207-7rbk4-m9gt3snjgn6m80@resize_w450_nl.webp">
+                        </div>
+                        <div class="v-card-name">BLACK</div>
+                        <div class="v-check"><i class="fas fa-check"></i></div>
+                    </div>
+                
+                    <div class="variant-card " onclick="selectVariant(this, '135000', 'CHOCOLATE ', 'https://down-id.img.susercontent.com/file/id-11134207-7rbk1-m9gt3snjf8m6df@resize_w450_nl.webp')">
+                        <div class="v-card-img">
+                            <img src="https://down-id.img.susercontent.com/file/id-11134207-7rbk1-m9gt3snjf8m6df@resize_w450_nl.webp">
+                        </div>
+                        <div class="v-card-name">CHOCOLATE </div>
+                        <div class="v-check"><i class="fas fa-check"></i></div>
+                    </div>
+                
+                    <div class="variant-card " onclick="selectVariant(this, '135000', 'PINK MAGENTA', 'https://down-id.img.susercontent.com/file/id-11134207-7rbk1-ma22wsxf2ee6fa@resize_w450_nl.webp')">
+                        <div class="v-card-img">
+                            <img src="https://down-id.img.susercontent.com/file/id-11134207-7rbk1-ma22wsxf2ee6fa@resize_w450_nl.webp">
+                        </div>
+                        <div class="v-card-name">PINK MAGENTA</div>
+                        <div class="v-check"><i class="fas fa-check"></i></div>
+                    </div>
+                
+                    <div class="variant-card " onclick="selectVariant(this, '135000', 'ORANGE', 'https://down-id.img.susercontent.com/file/id-11134207-7rbkd-ma22wsxf3symc9@resize_w450_nl.webp')">
+                        <div class="v-card-img">
+                            <img src="https://down-id.img.susercontent.com/file/id-11134207-7rbkd-ma22wsxf3symc9@resize_w450_nl.webp">
+                        </div>
+                        <div class="v-card-name">ORANGE</div>
+                        <div class="v-check"><i class="fas fa-check"></i></div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <div class="shipping-box" onclick="scrollToOrder()">
+            <div class="shipping-icon"><i class="fas fa-truck-fast"></i></div>
+            <div class="shipping-text">
+                <div class="shipping-title" id="dynamic-shipping-date">Garansi Tiba: ...</div>
+                <div class="shipping-desc">Dapatkan Jaminan Ongkir s/d 20RB</div>
+            </div>
+            <i class="fas fa-chevron-right" style="color:#ccc; font-size:10px;"></i>
+        </div>
+
+        <div style="background: #fff; border-bottom: 8px solid #f1f1f1;">
+            <div class="dropdown-trigger active" onclick="toggleDropdown(this)">DESKRIPSI PRODUK <i class="fas fa-chevron-down"></i></div>
+            <div class="dropdown-content active">Cara pemakaian Henna khadijah sebelumnya bisa pakai kikir jujur bagian yg kasar untuk menghaluskan kuku lalu baru pakai Henna
+
+1. Kocok terlebih dahulu saat akan menggunakan henna
+
+2. Oleskan pada kuku tebal dan merata
+
+3. Tunggu hingga 45menit-1jam (2jam hasil maksimal)
+
+4. Bersihkan dengan tisu kering dan diamkan 1 jam agar warna meresap sempurna
+
+5. Setelah itu baru boleh di bilas dengan air (tidak boleh di kerik)
+
+6. Ulangi pemakaian untuk hasil lebih pekat
+
+Setelah itu baru menggunakan serum kuku (disarankan di gunakan 3kali dalam seminggu)
+
+</div>
+            
+            <div class="dropdown-trigger" onclick="toggleDropdown(this)">PANDUAN UKURAN <i class="fas fa-chevron-down"></i></div>
+            <div class="dropdown-content">Pilih ukuran Anda.</div>
+            <div class="dropdown-trigger" onclick="toggleDropdown(this)">SPESIFIKASI TEKNIS <i class="fas fa-chevron-down"></i></div>
+            <div class="dropdown-content">Bahan: Premium Quality
+Stok: Tersedia
+Garansi: 100% Original</div>
+        </div>
+
+        
+        <div class="s-section-features">
+            <div style="padding: 20px 15px 5px; font-weight: 800; font-size: 13px; color: #888; text-transform: uppercase; letter-spacing: 1px;">Fitur Unggulan</div>
+            <div class="features-vertical-list">
+                
+                    <div class="feature-vertical-item">
+                        <img src="https://bandungmall.my.id/wp-content/uploads/2026/04/WhatsApp-Image-2026-04-20-at-11.04.39-AM-1.jpeg" class="feature-img-large">
+                        <div class="feature-content-large">
+                            <div class="feature-title-large">Halal Sah Untuk Sholat</div>
+                            <div class="feature-desc-large">Tembus air dan wudhu-friendly, memberikan ketenangan beribadah tanpa mengorbankan pesona keindahan kuku Anda.</div>
+                        </div>
+                    </div>
+                
+                    <div class="feature-vertical-item">
+                        <img src="https://bandungmall.my.id/wp-content/uploads/2026/04/WhatsApp-Image-2026-04-20-at-11.04.39-AM.jpeg" class="feature-img-large">
+                        <div class="feature-content-large">
+                            <div class="feature-title-large">Warna Pekat Tahan Lama</div>
+                            <div class="feature-desc-large">Pigmentasi intens yang tidak mudah pudar, memastikan kuku Anda tampil memukau lebih lama tanpa repot.</div>
+                        </div>
+                    </div>
+                
+                    <div class="feature-vertical-item">
+                        <img src="https://down-id.img.susercontent.com/file/id-11134207-8224r-mkcenaspuwas5d@resize_w450_nl.webp" class="feature-img-large">
+                        <div class="feature-content-large">
+                            <div class="feature-title-large">Kandungan Inai Kuku Premium</div>
+                            <div class="feature-desc-large">Diformulasikan dari bahan berkualitas yang merawat kesehatan kuku sekaligus memancarkan kilau warna yang elegan.</div>
+                        </div>
+                    </div>
+                
+                    <div class="feature-vertical-item">
+                        <img src="https://down-id.img.susercontent.com/file/id-11134207-8224v-mkwgnp1eo7wna5.webp" class="feature-img-large">
+                        <div class="feature-content-large">
+                            <div class="feature-title-large">Aman Tersertifikasi Resmi BPOM</div>
+                            <div class="feature-desc-large">Teruji klinis dan tersertifikasi, memberikan rasa tenang maksimal agar Anda bebas khawatir saat mempercantik diri.</div>
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+
+        
+        <div class="s-section">
+            <div class="s-section-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <div class="s-section-title">PENILAIAN PRODUK</div>
+                <div style="color:#EE4D2D; font-size:12px; font-weight:600; cursor:pointer;">Lihat Semua ></div>
+            </div>
+            <div class="s-testimonial-list">
+                
+                    <div class="s-testimonial-item">
+                        <div class="st-header">
+                            <img src="https://ui-avatars.com/api/?name=Clarissa Putri" class="st-avatar">
+                            <div class="st-user-info">
+                                <div class="st-name">Clarissa Putri</div>
+                                <div class="st-stars">★★★★★</div>
+                                <div class="st-meta"><span class="dynamic-date" data-days-ago="3"></span></div>
+                            </div>
+                        </div>
+                        <div class="st-text">Warnanya cantik banget, bener-bener premium. Sekali oles langsung nutup. Pengemasan super aman pake bubble wrap tebal.</div>
+                        <div class="st-media"><img src="https://down-id.img.susercontent.com/file/id-11134103-822wi-mn89vbo2jkec21.webp" onclick="openLightbox('https://down-id.img.susercontent.com/file/id-11134103-822wi-mn89vbo2jkec21.webp')" style="cursor:pointer;"></div>
+                    </div>
+                
+                    <div class="s-testimonial-item">
+                        <div class="st-header">
+                            <img src="https://ui-avatars.com/api/?name=Adrian Pratama" class="st-avatar">
+                            <div class="st-user-info">
+                                <div class="st-name">Adrian Pratama</div>
+                                <div class="st-stars">★★★★★</div>
+                                <div class="st-meta"><span class="dynamic-date" data-days-ago="11"></span></div>
+                            </div>
+                        </div>
+                        <div class="st-text">Belikan buat kado istri, dia suka banget. Katanya teksturnya enak dan cepat kering. Seller ramah, packing aman terlindungi.</div>
+                        <div class="st-media"><img src="https://down-id.img.susercontent.com/file/id-11134103-822wi-mmu16u3swft07d.webp" onclick="openLightbox('https://down-id.img.susercontent.com/file/id-11134103-822wi-mmu16u3swft07d.webp')" style="cursor:pointer;"></div>
+                    </div>
+                
+                    <div class="s-testimonial-item">
+                        <div class="st-header">
+                            <img src="https://ui-avatars.com/api/?name=Nadia Syifa" class="st-avatar">
+                            <div class="st-user-info">
+                                <div class="st-name">Nadia Syifa</div>
+                                <div class="st-stars">★★★★★</div>
+                                <div class="st-meta"><span class="dynamic-date" data-days-ago="10"></span></div>
+                            </div>
+                        </div>
+                        <div class="st-text">Khadijah Premium Nail emang kualitas juara. Warnanya mewah dan gak gampang kelupas biarpun kena air terus. Bakal repurchased sih!</div>
+                        
+                    </div>
+                
+                    <div class="s-testimonial-item">
+                        <div class="st-header">
+                            <img src="https://down-id.img.susercontent.com/file/2e209f77cb825228d77f75e7ecef9c60_tn" class="st-avatar">
+                            <div class="st-user-info">
+                                <div class="st-name">Bella Gracia</div>
+                                <div class="st-stars">★★★★★</div>
+                                <div class="st-meta"><span class="dynamic-date" data-days-ago="10"></span></div>
+                            </div>
+                        </div>
+                        <div class="st-text">Suka banget sama pelayanan tokonya, pengiriman kilat. Barangnya sampai dengan selamat tanpa cacat. Warnanya realpict banget!</div>
+                        <div class="st-media"><img src="https://down-id.img.susercontent.com/file/id-11134103-81ztp-me86gc2grymad6.webp" onclick="openLightbox('https://down-id.img.susercontent.com/file/id-11134103-81ztp-me86gc2grymad6.webp')" style="cursor:pointer;"></div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <div id="order-section" style="padding:25px 15px; background:#fff;">
+            <div id="variant-summary"></div>
+            <h3 style="text-align:center; font-weight:900; color:var(--primary); font-size:14px; margin-bottom:15px; text-transform:uppercase;">Formulir Pemesanan</h3>
+            
+        </div>
+
+        
+    </div>
+    
+    <div id="lightbox" class="lightbox" onclick="this.style.display='none'">
+        <div class="lightbox-container" onclick="event.stopPropagation()">
+            <span class="lightbox-close" onclick="document.getElementById('lightbox').style.display='none'">&times;</span>
+            <img id="lightbox-img">
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        const mainSwiper = new Swiper('#main-slider', { 
+            pagination: { el: '.swiper-pagination', clickable: true },
+            autoplay: { delay: 5000, disableOnInteraction: false }
+        });
+
+        const videos = document.querySelectorAll('.slide-video');
+        videos.forEach(video => {
+          video.onplay = () => mainSwiper.autoplay.stop();
+          video.onended = () => {
+            mainSwiper.slideNext();
+            mainSwiper.autoplay.start();
+          };
+          video.onpause = () => {
+            if(!video.ended) mainSwiper.autoplay.start();
+          };
+        });
+
+        function selectVariant(el, price, name, image) {
+            document.querySelectorAll('.variant-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('selected-variant-name').innerText = name;
+            
+            if(price) document.getElementById('display-price').innerText = 'Rp ' + Number(price).toLocaleString('id-ID');
+            
+            if (image) {
+                const mainImg = document.getElementById('main-product-img');
+                if (mainImg) {
+                    mainImg.src = image;
+                    const targetIndex = 0;
+                    if (mainSwiper) mainSwiper.slideTo(targetIndex);
+                }
+            }
+
+            const summary = document.getElementById('variant-summary');
+            if (summary) {
+              // Fixed: Escape backticks to prevent premature termination of outer template literal
+              summary.innerHTML = `
+                <div class="summary-card">
+                    <img src="${image}" class="summary-img">
+                    <div class="summary-info">
+                        <div class="summary-title">KHADIJAH PREMIUM NAIL</div>
+                        <div class="summary-variant-name">${name}</div>
+                    </div>
+                    <i class="fas fa-check-circle summary-check"></i>
+                </div>`;
+            }
+        }
+
+        function toggleDropdown(el) { el.classList.toggle('active'); el.nextElementSibling.classList.toggle('active'); }
+        function scrollToOrder() { 
+          const target = document.getElementById('order-section');
+          if (target) target.scrollIntoView({ behavior: 'smooth' }); 
+        }
+        function openLightbox(src) { 
+          const img = document.getElementById('lightbox-img');
+          if (img) img.src = src; 
+          const lb = document.getElementById('lightbox');
+          if (lb) lb.style.display = 'flex'; 
+        }
+        
+        function updateShippingDate() {
+            const months = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des"];
+            const today = new Date();
+            const start = new Date(today);
+            start.setDate(today.getDate() + 3);
+            const end = new Date(today);
+            end.setDate(today.getDate() + 6);
+            
+            let dateStr = "";
+            if (start.getMonth() === end.getMonth()) {
+                dateStr = start.getDate() + " - " + end.getDate() + " " + months[start.getMonth()];
+            } else {
+                dateStr = start.getDate() + " " + months[start.getMonth()] + " - " + end.getDate() + " " + months[end.getMonth()];
+            }
+            
+            const el = document.getElementById('dynamic-shipping-date');
+            if (el) el.innerText = "Garansi Tiba: " + dateStr;
+        }
+
+        function updateReviewDates() {
+            const els = document.querySelectorAll('.dynamic-date');
+            els.forEach(el => {
+                const daysAgo = parseInt(el.getAttribute('data-days-ago')) || 0;
+                const date = new Date();
+                date.setDate(date.getDate() - daysAgo);
+                
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                
+                el.innerText = day + '/' + month + '/' + year;
+            });
+        }
+
+        function startTimer(duration, display) {
+            let timer = duration, hours, minutes, seconds;
+            setInterval(function () {
+                hours = Math.floor(timer / 3600);
+                minutes = Math.floor((timer % 3600) / 60);
+                seconds = Math.floor(timer % 60);
+
+                const hDisplay = hours < 10 ? "0" + hours : hours;
+                const mDisplay = minutes < 10 ? "0" + minutes : minutes;
+                const sDisplay = seconds < 10 ? "0" + seconds : seconds;
+
+                if (display) display.textContent = hDisplay + " : " + mDisplay + " : " + sDisplay;
+
+                if (--timer < 0) {
+                    timer = duration;
+                }
+            }, 1000);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            updateShippingDate();
+            updateReviewDates();
+            
+            const firstVariant = document.querySelector('.variant-card');
+            if(firstVariant) (firstVariant).click();
+
+            const timerDisplay = document.querySelector('#timer');
+            if(timerDisplay) {
+                const durationHours = 15;
+                startTimer(3600 * durationHours, timerDisplay);
+            }
+
+            if (document.querySelector('.related-swiper')) {
+                new Swiper('.related-swiper', {
+                    slidesPerView: 'auto',
+                    spaceBetween: 15,
+                    freeMode: true,
+                    autoplay: { delay: 3000, disableOnInteraction: false },
+                });
+            }
+        });
+    </script>
+</body>
+</html>
